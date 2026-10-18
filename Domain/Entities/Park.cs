@@ -1,42 +1,34 @@
 using HSE_kat.Domain.Interfaces;
+using HSE_kat.Domain.Results;
 namespace HSE_kat.Domain.Entities;
 
-
+// хранит информацию о всём инвентаре
 public class Park
 {
     private List<IInventoryItem> Items;
     private HashSet<string> InventoryNumbers;
 
-    Park()
+    public Park()
     {
         Items = [];
         InventoryNumbers = [];
     }
 
-    int Add(IInventoryItem item)
+    public AddResult Add(IInventoryItem item)
     {
-        if (item is null) return 0; //проверка на существование
-        if (!InventoryNumbers.Add(item.InventoryNumber)) return 0; //проверка на уникальность номера
+        if (item is null) return AddResult.InvalidData; //проверка на существование
+        if (!InventoryNumbers.Add(item.InventoryNumber)) return AddResult.InvalidInventoryNumber; //проверка на уникальность номера
 
         Items.Add(item);
-        return 1;
+        return AddResult.Success;
     }
 
-    List<IInventoryItem> GetAll()
+    public List<IInventoryItem> GetAll()
     {
         return Items;
     }
 
-    // List<IInventoryItem> GetVehicles()
-    // {
-    //     List<IInventoryItem> vehicles = [];
-    //     foreach(IInventoryItem item in Items)
-    //     {
-    //         if (item is IVehicle) vehicles.Add(item);
-    //     }
-    //     return vehicles;
-    // }
-    List<IInventoryItem> GetOfType<T>() where T : IInventoryItem
+    public List<IInventoryItem> GetOfType<T>() where T : IInventoryItem
     {
         List<IInventoryItem> items = [];
         foreach(IInventoryItem item in Items)
@@ -46,7 +38,7 @@ public class Park
         return items;
     }
 
-    List<IInventoryItem> GetAllExeptType<T>() where T : IInventoryItem
+    public List<IInventoryItem> GetAllExeptType<T>() where T : IInventoryItem
     {
         List<IInventoryItem> items = [];
         foreach(IInventoryItem item in Items)

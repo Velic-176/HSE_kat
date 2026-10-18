@@ -1,4 +1,4 @@
-namespace HSE_kat.Interfaces;
+namespace HSE_kat.Domain.Interfaces;
 
 public interface IEnergyConsumer
 {
